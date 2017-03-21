@@ -334,7 +334,7 @@
 		}
 
 		// be sure parent of the calendar is positionned  to calculate the position of the calendar
-		if (this.$calendar.parent().css('position') === 'static') {
+		if (this.$calendar.parent().css('position') === 'static' && this.options.styleMutations) {
 			this.$calendar.parent().css('position', 'relative');
 		}
 		this.$calendar.find('.datepicker-bn-open-label').html(this.options.buttonLabel);
@@ -342,7 +342,8 @@
 			this.$calendar.attr('aria-controls', this.$target.attr('id'));
 		}
 		this.$button.find('span').attr('title', this.options.buttonTitle);
-		this.$calendar.css('left', this.$target.parent().position().left + 'px');
+        if(this.options.styleMutations)
+		    this.$calendar.css('left', this.$target.parent().position().left + 'px');
 		this.$monthObj = this.$calendar.find('.datepicker-month');
 		this.$prev = this.$calendar.find('.datepicker-month-prev');
 		this.$next = this.$calendar.find('.datepicker-month-next');
@@ -431,6 +432,7 @@
 		modal: false,
 		inline: false,
 		min: null,
+        styleMutations: true,
 		max: null
 	}
 
@@ -2093,17 +2095,21 @@
 		if (roomAfter < calendarHeight && roomAfter < roomBefore) {
 			// show calendar above group
 			this.$calendar.addClass('above');
-			this.$calendar.css({
-				top: (groupOffsetTop - calendarHeight) + 'px',
-				left: (groupOffsetLeft + parentPaddingLeft) + 'px'
-			});
+            if(this.options.styleMutations) {
+                this.$calendar.css({
+                    top: (groupOffsetTop - calendarHeight) + 'px',
+                    left: (groupOffsetLeft + parentPaddingLeft) + 'px'
+                });
+            }
 		} else {
 			  // show calendar below group
 			this.$calendar.addClass('below');
-			this.$calendar.css({
-				top: (groupHeight + groupOffsetTop) + 'px',
-				left: (groupOffsetLeft + parentPaddingLeft) + 'px'
-			});
+            if(this.options.styleMutations) {
+                this.$calendar.css({
+                    top: (groupHeight + groupOffsetTop) + 'px',
+                    left: (groupOffsetLeft + parentPaddingLeft) + 'px'
+                });
+            }
 		}
 
 		// show the dialog
